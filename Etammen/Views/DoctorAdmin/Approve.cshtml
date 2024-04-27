@@ -1,0 +1,41 @@
+﻿@model List<ApproveDoctorViewModel>
+
+@{
+    ViewBag.Title = "Approve Doctors";
+    Layout = "~/Views/Dashboard/_AdminDashboard.cshtml";
+}
+
+<div class="container">
+    <div class="row">
+        @if(Model.Count != 0)
+        {
+            @foreach (var doctor in Model)
+            {
+                <div class="col-md-6 mb-4">
+                    <div class="card">
+                        <img  src="/DoctorImages/@doctor.ProfilePicture" style="width:250px;height:300px" />
+                        <div class="card-body">
+                            <h5 class="card-title">@doctor.FirstName @doctor.LastName</h5>
+                            <p class="card-text">@doctor.Speciality</p>
+                            <p class="card-text">@doctor.YearsOfExperience years of experience</p>
+                            <p class="card-text">@doctor.AboutTheDoctor</p>
+                            <img src="/DoctorImages/@doctor.Certificate" alt="Certificate" class="img-fluid mb-2">
+                            <div class="btn-group" role="group">
+                                <a asp-action="ApprovePost" asp-route-id="@doctor.Id" asp-route-isApproved="@true"
+                                   class="btn btn-success">Approve</a>
+                                <a asp-action="ApprovePost" asp-route-id="@doctor.Id" asp-route-isApproved="@false"
+                                   class="btn btn-danger">Decline</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <div class="tab-pane alert alert-primary fade show active" role="alert">
+                There are no doctors waiting for approve!
+            </div>
+        }
+    </div>
+</div>

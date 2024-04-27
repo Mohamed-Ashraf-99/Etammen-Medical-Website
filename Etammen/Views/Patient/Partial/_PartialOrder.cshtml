@@ -1,0 +1,37 @@
+﻿
+@model Etammen.ViewModels.JSONMainViewModelHolder
+@using System.Text.Json;
+
+@{
+    var myModel = JsonSerializer.Deserialize<MainViewModel>(Model.JSONdata);
+}
+<style>
+    form{
+        margin-right:3rem;
+    }
+</style>
+<form id="OrderForm" asp-action="Order" >
+    <input type="hidden" name="JSONdata" />
+    <div class="dropdown">
+        <button class="btn btn-light dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            Sort By
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+            <a class="dropdown-item" href="#">
+                <input type="radio" class="orderBy" value="1" id="order1" checked="@(myModel.Order == 1)" name="ordername" onchange="updateAndSubmit(event,'OrderForm')">
+                <label for="order1">Top Rated</label>
+            </a>
+            <a class="dropdown-item" href="#">
+                <input type="radio" class="orderBy" value="2" id="order2" name="ordername" checked="@(myModel.Order == 2)" onchange="updateAndSubmit(event,'OrderForm')">
+                <label for="order2">Price Low To High</label>
+            </a>
+            <a class="dropdown-item" href="#">
+                <input type="radio" class="orderBy" value="3" id="order3" name="ordername" checked="@(myModel.Order == 3)" onchange="updateAndSubmit(event,'OrderForm')">
+                <label for="order3">Price High To Low</label>
+            </a>
+        </div>
+    </div>
+
+</form>
+
+

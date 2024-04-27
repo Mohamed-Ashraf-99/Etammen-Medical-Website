@@ -1,0 +1,94 @@
+﻿@model Etammen.ViewModels.JSONMainViewModelHolder
+@using System.Text.Json;
+
+@{
+    ViewData["Title"] = "Home";
+    var myModel = JsonSerializer.Deserialize<MainViewModel>(Model.JSONdata);
+
+    SelectList Cities = null;
+    SelectList Areas = new SelectList(new List<string>{ "ALL" });
+
+
+    if (myModel.City is null || myModel.City == "ALL")
+        Cities = new SelectList(myModel.City_areaDict.Keys);
+    else
+    {
+        Cities = new SelectList(myModel.City_areaDict.Keys, myModel.City);
+        Areas = new SelectList(myModel.City_areaDict[myModel.City], myModel.Area ?? "ALL");
+    }
+    SelectList specialitiesSL = new SelectList(myModel.Specialties);
+    
+}
+<link rel="stylesheet" href="/assets/css/search.css"/>
+<div>
+    <form id="Searchform" asp-action="Index" onsubmit="updateAndSubmit(event)">
+        <input type="hidden" name="JSONdata" />
+        <div class="d-flex flex-row">
+            <select id="specialityselectlist" asp-items="specialitiesSL" class="form-select p-3" name="specialty">
+                <option disabled selected value="ALL">Select a speciality</option>
+            </select>
+
+            <select asp-items="Cities" id="cityselectlist" class="form-select p-3" name="city">
+                <option disabled selected value="ALL">Select a city</option>
+            </select>
+
+            <select asp-items="Areas" id="areaselectlist" class="form-select p-3" name="area">
+                <option value="ALL">All Areas</option>
+            </select>
+            <input class="p-2" type="text" value="" placeholder="Doctor Name" name="doctorName" class="form-text" />
+            <input class="p-2" type="text" value="" placeholder="Clinic Name" name="clinicName" class="form-text" />
+            <input id="hamada" type="submit" value="Search" class="btn btn-primary p-3" />
+
+        </div>
+    </form>
+</div>
+
+
+@section Scripts {
+    <script>
+        let City_Area = {};
+        let myModel = @Html.Raw(Json.Serialize(myModel));
+        @foreach (var pair in myModel.City_areaDict)
+        {
+            <text>
+                City_Area["@pair.Key"]=[];
+            </text>
+            @foreach (var area in pair.Value)
+            {
+                <text>
+                    City_Area["@pair.Key"].push("@area");
+                </text>
+            }
+        }
+
+        function updateAndSubmit(event) {
+            event.preventDefault();
+            myModel.Specialty = document.querySelector("#specialityselectlist").value;
+            myModel.City = document.querySelector("#cityselectlist").value;
+            myModel.Area = document.querySelector("#areaselectlist").value;
+            myModel.DoctorName = document.querySelector("[name=doctorName]").value;
+            myModel.ClinicName = document.querySelector("[name=clinicName]").value;
+
+            let json = JSON.stringify(myModel);
+
+            document.querySelector("[name=JSONdata]").value = json;
+
+            document.getElementById("Searchform").submit();
+        }
+        document.getElementById("cityselectlist").addEventListener("change", function () {
+            let areaSelect = document.getElementById("areaselectlist");
+            areaSelect.innerHTML = '';
+            let selectedIndex = this.selectedIndex;
+            let selectedValue = this.options[selectedIndex].value;
+            let areas = City_Area[selectedValue];
+            for (let area of areas) {
+                let newOption = document.createElement("option");
+                newOption.value = area;
+                newOption.text = area;
+                areaSelect.appendChild(newOption);
+            }
+    });
+    </script>
+    <script src="/assets/js/choices.js"></script>
+    <script src="/assets/js/search.js"></script>
+}

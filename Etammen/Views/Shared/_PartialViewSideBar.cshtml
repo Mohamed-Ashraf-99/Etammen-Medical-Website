@@ -1,0 +1,59 @@
+﻿<aside class="left-sidebar">
+    <!-- Sidebar scroll-->
+    <div>
+        <div class="brand-logo d-flex align-items-center justify-content-between">
+            <h1 class="logo me-auto"><a href="/">Etammen</a></h1>
+            <div class="close-btn d-xl-none d-block sidebartoggler cursor-pointer" id="sidebarCollapse">
+                <i class="ti ti-x fs-8"></i>
+            </div>
+        </div>
+        <!-- Sidebar navigation-->
+        <nav class="sidebar-nav scroll-sidebar" data-simplebar="">
+            <ul id="sidebarnav">
+                <li class="nav-small-cap">
+                    <i class="ti ti-dots nav-small-cap-icon fs-4"></i>
+                    <span class="hide-menu">Entities</span>
+                </li>
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-controller="DoctorAdmin" asp-action="Index" aria-expanded="false">
+                        <span>
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </span>
+                        <span class="hide-menu">Doctor</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+
+                    <a class="sidebar-link" asp-controller="DoctorAdmin" asp-action="Approve" aria-expanded="false">
+                        <span>
+                            <i class="fa-solid fa-user-doctor"></i>
+                        </span>
+                        <span class="hide-menu">Approve Doctors</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-controller="ClinicAdmin" asp-action="Index" aria-expanded="false">
+                        <span>
+                            <i class="fa-solid fa-house-chimney-medical"></i>
+                        </span>
+                        <span class="hide-menu">Clinic</span>
+                    </a>
+                </li>
+
+                <li class="sidebar-item">
+                    <a class="sidebar-link" asp-controller="PatientAdmin" asp-action="Index" aria-expanded="false">
+                        <span>
+                            <i class="fa-solid fa-hospital-user"></i>
+                        </span>
+                        <span class="hide-menu">Patient</span>
+                    </a>
+                </li>
+            </ul>
+
+        </nav>
+        <!-- End Sidebar navigation -->
+    </div>
+    <!-- End Sidebar scroll-->
+</aside>
